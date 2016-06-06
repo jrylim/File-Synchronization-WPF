@@ -195,7 +195,8 @@ namespace File_Synchronization_WPF
                                 Subject = filePath,
                                 Body = Convert.ToBase64String(fileByte),
                                 Category = GetCategoryId(eo_Client),
-                                Type = 55, //Miscellaneous
+                                //Type = 55, //Miscellaneous
+                                Type = 183, //Attachments
                                 DocumentDate = DateTime.Now.Date
                             };
 
@@ -203,6 +204,19 @@ namespace File_Synchronization_WPF
                             if (!created)
                             {
                                 MessageBox.Show("Upload " + filePath + " failed!");
+                            }
+                            else
+                            {
+                                DocumentAttachment documentAttachment = new DocumentAttachment
+                                {
+                                    Attachment = fileByte,
+                                    Document = document.ID,
+                                    FileName = filePath,
+                                    FileSize = fileByte.Length
+                                    //ID
+                                    //Url
+                                };
+                                eo_Client.For<DocumentAttachment>().Insert(ref documentAttachment);
                             }
                         }
                     }
